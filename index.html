@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cloth Store - Busy Order</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+
+    header {
+      background: #1e1e1e;
+      padding: 20px 40px;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    header h1 {
+      font-size: 24px;
+    }
+
+    header nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    header nav a:hover {
+      text-decoration: underline;
+    }
+
+    header .cart-btn {
+      background: #ff6f61;
+      border: none;
+      padding: 10px 15px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    header .cart-btn:hover {
+      background: #ff3b2e;
+    }
+
+    .cart-btn {
+      background: #ff6f61;
+      border: none;
+      padding: 10px 15px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .hero {
+      background: url('https://images.unsplash.com/photo-1541099649105-f69ad21f3246') no-repeat center center/cover;
+      height: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      text-shadow: 2px 2px 8px #000;
+    }
+
+    .hero h2 {
+      font-size: 40px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .products h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .product-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .product-list .product {
+      flex: 1 1 calc(25% - 20px);
+      margin: 10px;
+      max-width: 220px;
+    }
+    .product-list .product img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .product-list .product h3 {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .product-list .product p {
+      font-size: 14px;
+      color: #777;
+    }
+    .product-list .product .price {
+      font-size: 16px;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    .product-list .product .add-btn {
+      background: #ff6f61;
+      border: none;
+      padding: 8px 12px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .product-list .product .add-btn:hover {
+      background: #ff3b2e;
+    }
+
+    .collection {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 40px;
+    }
+
+    .collection h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 28px;
+    }
+
+    .collection .product {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .collection .product:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .collection .product h3 {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .collection .product img {
+      width: 100%;
+      border-radius: 8px;
+      height: 200px;
+      object-fit: cover;
+    }
+    .collection .product h3 {
+      margin: 15px 0 5px;
+    }
+    .collection .product p {
+      color: #777;
+      font-size: 14px;
+    }
+    
+
+
+    .product {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      transition: 0.3s;
+    }
+
+    .product:hover {
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .product h3 {
+      font-size: 18px;
+      margin: 10px 0;
+    }
+
+    .product:hover {
+      transform: scale(1.02);
+    }
+
+    .product img {
+      width: 100%;
+      border-radius: 8px;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .product h3 {
+      margin: 15px 0 5px;
+    }
+
+    .product p {
+      color: #777;
+      font-size: 14px;
+    }
+
+    .price {
+      margin: 10px 0;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .add-btn {
+      background: #ff6f61;
+      border: none;
+      padding: 8px 12px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .add-btn:hover {
+      background: #ff3b2e;
+    }
+
+    .cart {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      background: white;
+      border: 1px solid #ccc;
+      width: 360px;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+      display: none;
+      z-index: 1000;
+    }
+
+    .cart h4 {
+      margin-bottom: 10px;
+    }
+
+    .cart ul {
+      list-style: none;
+      max-height: 250px;
+      overflow-y: auto;
+      padding-left: 0;
+    }
+
+    .cart li {
+      margin-bottom: 15px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .cart li img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .cart-details {
+      flex-grow: 1;
+    }
+
+    .cart-details div {
+      margin-bottom: 4px;
+    }
+
+    .cart-controls {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .quantity-controls button {
+      background: #ff6f61;
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+
+    .quantity-controls span {
+      min-width: 20px;
+      text-align: center;
+      display: inline-block;
+    }
+
+    .remove {
+      background: #dc3545;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .cart-total {
+      margin-top: 10px;
+      font-weight: bold;
+      text-align: center;
+      font-size: 18px;
+    }
+
+    .checkout-btn button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .close-cart {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .testimonials {
+      padding: 40px 20px;
+      background: #f1f1f1;
+      text-align: center;
+    }
+
+    .testimonials h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .testimonial {
+      max-width: 600px;
+      margin: 0 auto;
+      font-style: italic;
+      color: #555;
+      font-size: 16px;
+    }
+
+    .contact {
+      padding: 40px 20px;
+      text-align: center;
+      background: #f9f9f9;
+    }
+
+    .contact h2 {
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    .contact form {
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .contact input, .contact textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .contact button {
+      background: #ff6f61;
+      border: none;
+      padding: 12px 20px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .contact button:hover {
+      background: #ff3b2e;
+    }
+
+    footer {
+      background: #1e1e1e;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+    <header>
+      <h1>Busy Order - Cloth Store</h1>
+      <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#product-list">Products</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <button class="cart-btn" onclick="toggleCart()">🛒 Cart (<span id="cart-count">0</span>)</button>
+    </header>
+  
+    <div class="hero" id="home">
+      <h2>Trendy Fashion for Everyone</h2>
+    </div>
+  
+    <div class="cart" id="cart">
+      <span class="close-cart" onclick="toggleCart()">✖</span>
+      <h4>Shopping Cart</h4>
+      <ul id="cart-items"></ul>
+      <div class="cart-total">Total: $<span id="cart-total">0.00</span></div>
+      <div class="checkout-btn"><button onclick="checkout()">Checkout</button></div>
+    </div>
+  
+    <!-- Featured Products -->
+    <br>
+    <div class="product-list">
+      <h1>Featured Products</h1>
+    </div>
+    <section class="products" id="product-list"></section>
+  
+    <!-- Our Collections -->
+    <br>
+    <div class="product-list">
+      <h1>Our Collections</h1>
+    </div>
+    <section class="collection" id="collection-list"></section>
+  
+    <!-- Testimonials -->
+    <section class="testimonials" id="testimonials">
+      <h2>What Our Customers Say</h2>
+      <div class="testimonial">
+        "I absolutely love the quality of the clothing I purchased. Highly recommend Busy Order!"
+      </div>
+    </section>
+  
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+      <h2>Contact Us</h2>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+  
+    <footer>
+      <p>&copy; 2025 Busy Order. All rights reserved.</p>
+    </footer>
+  
+    <script>
+      const products = [
+        { id: 1, name: "Classic White Shirt", price: 29.99, image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=400&q=80" },
+        { id: 2, name: "Denim Jacket", price: 59.99, image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80" },
+        { id: 3, name: "Casual Hoodie", price: 39.99, image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" },
+        { id: 4, name: "Stylish Dress", price: 49.99, image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=400&q=80" }
+      ];
+  
+      const collections = [
+        { id: 1, name: "Summer Collection", image: "https://images.unsplash.com/photo-1506748686214-e9df14d4d9d0?auto=format&fit=crop&w=400&q=80" },
+        { id: 2, name: "Winter Collection", image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=400&q=80" },
+        { id: 3, name: "Spring Collection", image: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=400&q=80" },
+        { id: 4, name: "Fall Collection", image: "https://images.unsplash.com/photo-1543076447-215ad9ba6923?auto=format&fit=crop&w=400&q=80" }
+      ];
+  
+      const collectionList = document.getElementById("collection-list");
+      collections.forEach(collection => {
+        const collectionEl = document.createElement("div");
+        collectionEl.classList.add("product");
+        collectionEl.innerHTML = `
+          <img src="${collection.image}" alt="${collection.name}" />
+          <h3>${collection.name}</h3>
+          <p>Explore our latest collection</p>
+          <button class="add-btn">View Details</button>
+        `;
+        collectionList.appendChild(collectionEl);
+      });
+  
+      const productList = document.getElementById("product-list");
+      const cartItems = document.getElementById("cart-items");
+      const cartCount = document.getElementById("cart-count");
+      const cartTotal = document.getElementById("cart-total");
+  
+      let cart = [];
+  
+      function renderProducts() {
+        products.forEach(product => {
+          const productEl = document.createElement("div");
+          productEl.classList.add("product");
+          productEl.innerHTML = `
+            <img src="${product.image}" alt="${product.name}" />
+            <h3>${product.name}</h3>
+            <p>High quality fabric and design</p>
+            <div class="price">$${product.price.toFixed(2)}</div>
+            <button class="add-btn" onclick="addToCart(${product.id})">Add to Cart</button>
+          `;
+          productList.appendChild(productEl);
+        });
+      }
+  
+      function addToCart(productId) {
+        const existing = cart.find(item => item.id === productId);
+        if (existing) {
+          existing.quantity++;
+        } else {
+          const product = products.find(p => p.id === productId);
+          cart.push({ ...product, quantity: 1 });
+        }
+        updateCart();
+      }
+  
+      function updateCart() {
+        cartItems.innerHTML = "";
+        let total = 0;
+        cart.forEach(item => {
+          total += item.price * item.quantity;
+          const li = document.createElement("li");
+          li.innerHTML = `
+            <img src="${item.image}" alt="${item.name}" />
+            <div class="cart-details">
+              <div><strong>${item.name}</strong></div>
+              <div>Price: $${item.price.toFixed(2)}</div>
+              <div>Subtotal: $${(item.price * item.quantity).toFixed(2)}</div>
+            </div>
+            <div class="cart-controls">
+              <div class="quantity-controls">
+                <button onclick="changeQuantity(${item.id}, -1)">-</button>
+                <span>${item.quantity}</span>
+                <button onclick="changeQuantity(${item.id}, 1)">+</button>
+              </div>
+              <button class="remove" onclick="removeFromCart(${item.id})">Remove</button>
+            </div>
+          `;
+          cartItems.appendChild(li);
+        });
+        cartCount.textContent = cart.reduce((sum, item) => sum + item.quantity, 0);
+        cartTotal.textContent = total.toFixed(2);
+      }
+  
+      function changeQuantity(productId, change) {
+        const item = cart.find(i => i.id === productId);
+        if (item) {
+          item.quantity += change;
+          if (item.quantity <= 0) {
+            cart = cart.filter(i => i.id !== productId);
+          }
+          updateCart();
+        }
+      }
+  
+      function removeFromCart(productId) {
+        cart = cart.filter(i => i.id !== productId);
+        updateCart();
+      }
+  
+      function toggleCart() {
+        const cartEl = document.getElementById("cart");
+        cartEl.style.display = cartEl.style.display === "block" ? "none" : "block";
+      }
+  
+      function checkout() {
+        alert("Thank you for your purchase!");
+        cart = [];
+        updateCart();
+        toggleCart();
+      }
+  
+      // Render on load
+      renderProducts();
+    </script>
+  </body>
+</html>
